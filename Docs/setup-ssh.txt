@@ -1,0 +1,22 @@
+Powershell 
+
+Step 1:  Generate the SSH Key
+ssh-keygen -t ed25519 -C "your_email@example.com"
+
+File location: Press Enter to accept the default file location (C:\Users\YourName\.ssh\id_ed25519).
+
+Step 2: Enable the Windows SSH Agent
+To avoid typing your passphrase every time you connect to Git, enable the Windows built-in background agent
+Open Powershell as admin
+Run these commands to set the agent to start automatically and run it
+Set-Service -Name ssh-agent -StartupType Automatic
+Start-Service ssh-agent
+
+Add your private key to the agent:
+ssh-add $env:USERPROFILE\.ssh\id_ed25519
+
+Step 3: Link Git to Windows OpenSSH
+Force Git to use the native Windows OpenSSH client so your credentials map correctly across tools
+git config --global core.sshCommand "C:/Windows/System32/OpenSSH/ssh.exe"
+
+Step 4: Add pub key to Github
